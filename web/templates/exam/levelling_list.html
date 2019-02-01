@@ -1,0 +1,118 @@
+{% extends "exam/base_exam.html" %} {% block h_title %}
+<h1>Hasil Ujian</h1>
+{% endblock h_title %} {% block content %} {% load widget_tweaks %} {% load staticfiles %} {% load humanize%}
+<div class="row">
+    <div class="col-md-12">
+        {% include 'base/include/message.html' %}
+        <a href="{% url 'exam:view' %}" class="btn btn-danger" style="margin-bottom: 8px;">
+            <i class="fa fa-arrow-left"></i> Kembali</a>
+        <a href="{% url 'exam:lev_add' lev_info.pk %}" class="btn btn-primary" style="margin-bottom: 8px;">Tambah Ujian</a>
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 style="margin-left: 13px;">Perengkingan Menggunakan Metode SAW</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <table id="table_saw" class="table table-hovered table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>NIA</th>
+                                <th>Akurasi</th>
+                                <th>Kecepatan</th>
+                                <th>Teknik</th>
+                                <th>Fisik</th>
+                                <th>Mental</th>
+                                <th>Pengetahuan</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>#aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for res in saw_results %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{res.nik}}</td>
+                                <td>{{res.accuracy | floatformat:2}}</td>
+                                <td>{{res.speed | floatformat:2}}</td>
+                                <td>{{res.technique | floatformat:2}}</td>
+                                <td>{{res.physic | floatformat:2}}</td>
+                                <td>{{res.mental | floatformat:2}}</td>
+                                <td>{{res.knowledge | floatformat:2}}</td>
+                                <td>{{res.total | floatformat:2}}</td>
+                                <td class="{% if res.status == 'LULUS' %}text-green{% else %}text-red{% endif %}">
+                                    <b>{{res.status}}</b>
+                                </td>
+                                <td>
+                                    <a href="{% url 'exam:lev_delete' lev_info_pk=lev_info.pk pk=res.pk %}" onclick="return confirm('yakin nih mau di hapus?')">Hapus</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header">
+                <h3 style="margin-left: 13px;">Perengkingan Menggunakan Metode SMART</h3>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <table id="table_smart" class="table table-hovered table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>NIA</th>
+                                <th>Akurasi</th>
+                                <th>Kecepatan</th>
+                                <th>Teknik</th>
+                                <th>Fisik</th>
+                                <th>Mental</th>
+                                <th>Pengetahuan</th>
+                                <th>Total</th>
+                                <th>#aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for res in smart_results %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{res.nik}}</td>
+                                <td>{{res.accuracy | floatformat:2}}</td>
+                                <td>{{res.speed | floatformat:2}}</td>
+                                <td>{{res.technique | floatformat:2}}</td>
+                                <td>{{res.physic | floatformat:2}}</td>
+                                <td>{{res.mental | floatformat:2}}</td>
+                                <td>{{res.knowledge | floatformat:2}}</td>
+                                <td>{{res.total | floatformat:2}}</td>
+                                <td>
+                                    <a href="{% url 'exam:lev_delete' lev_info_pk=lev_info.pk pk=res.pk %}" onclick="return confirm('yakin nih mau di hapus?')">Hapus</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#table_saw').DataTable({
+            "order": [
+                [8, "desc"]
+            ]
+        });
+
+        $('#table_smart').DataTable({
+            "order": [
+                [10, "desc"]
+            ]
+        });
+    });
+</script>
+{% endblock content %}

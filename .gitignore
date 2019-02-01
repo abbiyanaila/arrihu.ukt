@@ -1,0 +1,9 @@
+env/
+env/*
+web/static/components/
+web/static/components/*
+dss-saw-with-function/
+dss-saw-with-function/*
+web/db.sqlite3
+web/media/
+web/media/*

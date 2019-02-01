@@ -1,0 +1,11 @@
+#Base
+django==1.11.7
+django-braces
+django-widget-tweaks
+django-versatileimagefield
+django-extensions
+django-vanilla-views
+django-extensions
+
+numpy
+pandas

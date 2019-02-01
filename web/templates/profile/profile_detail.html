@@ -1,0 +1,274 @@
+{% extends "profile/base_profile.html" %} {% block content %}
+<style>
+    .center-cropped {
+        object-fit: cover;
+        object-position: center;
+        height: 100px;
+        width: 100px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-4">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                <img class="profile-user-img img-responsive img-circle center-cropped" src="{{object.picture.url}}" alt="User profile picture">
+
+                <h3 class="profile-username text-center">
+                    {{object.name}}
+                    <a href="{% url 'member:edit' object.pk %}">
+                        <i class="fa fa-pencil text-green"></i>
+                    </a>
+                </h3>
+
+                <p class="text-muted text-center">{{object.organization.name}}</p>
+                <hr>
+                <a href="{% url 'exam:view' %}" class="btn bg-purple btn-block">
+                    <b>Lakukan Ujian</b>
+                </a>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+    </div>
+    <!-- /.col -->
+    <div class="col-md-8">
+        <div class="nav-tabs-custom tabbable full-width-tabs">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#info" data-toggle="tab" aria-expanded="false">Informasi Umum</a>
+                </li>
+                <li class="">
+                    <a href="#fisik" data-toggle="tab" aria-expanded="false">Informasi Fisik</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="info">
+                    <table class="table table-hovered table-responsive">
+                        <tbody>
+                            <tr>
+                                <td>No. Registrasi</td>
+                                <td>:</td>
+                                <td>{{object.user.username}}</td>
+                            </tr>
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>{{object.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>:</td>
+                                <td>{{object.gender}}</td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>:</td>
+                                <td>{{object.address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tempat, Tanggal Lahir</td>
+                                <td>:</td>
+                                <td>{{object.born_place}}, {{object.born_date}}</td>
+                            </tr>
+                            <tr>
+                                <td>Agama</td>
+                                <td>:</td>
+                                <td>{{object.religion}}</td>
+                            </tr>
+                            <tr>
+                                <td>No. Telp</td>
+                                <td>:</td>
+                                <td>{{object.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>:</td>
+                                <td>{{object.email}}</td>
+                            </tr>
+                            <tr>
+                                <td>No. KTP</td>
+                                <td>:</td>
+                                <td>{{object.identity_number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tingkatan</td>
+                                <td>:</td>
+                                <td>{{object.level}}</td>
+                            </tr>
+                            <tr>
+                                <td>Divisi</td>
+                                <td>:</td>
+                                <td>{{object.level.division}}</td>
+                            </tr>
+                            <tr>
+                                <td>Organisasi</td>
+                                <td>:</td>
+                                <td>{{object.organization.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="fisik">
+                    <table class="table table-hovered table-responsive">
+                        <tbody>
+                            <tr>
+                                <td>Tinggi Badan</td>
+                                <td>:</td>
+                                <td>{{object.physic.body_height}} cm</td>
+                            </tr>
+                            <tr>
+                                <td>Berat Badan</td>
+                                <td>:</td>
+                                <td>{{object.physic.body_weight}} kg</td>
+                            </tr>
+                            <tr>
+                                <td>Arm Span</td>
+                                <td>:</td>
+                                <td>{{object.physic.arm_span}} cm</td>
+                            </tr>
+                            <tr>
+                                <td>Full Draw</td>
+                                <td>:</td>
+                                <td>{{object.physic.full_draw}} inch</td>
+                            </tr>
+                            <tr>
+                                <td>Over Draw</td>
+                                <td>:</td>
+                                <td>{{object.physic.over_draw}} inch</td>
+                            </tr>
+                            <tr>
+                                <td>Gol. Darah</td>
+                                <td>:</td>
+                                <td>{{object.physic.blood_group}}</td>
+                            </tr>
+                            <tr>
+                                <td>Riwayat Penyakit</td>
+                                <td>:</td>
+                                <td>{{object.physic.hospital_history}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+    </div>
+    <!-- /.col -->
+</div>
+
+{% autoescape off %}
+<script>
+    $('#reservation').daterangepicker({
+        locale: {
+            format: 'YYYY/MM/DD'
+        },
+        startDate: '{{dr1}}',
+        endDate: '{{dr2}}'
+    })
+
+    var chart = document.getElementById('stat-chart');
+    var dynamicColors = function () {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+    var rawData = {{ data }}
+    var datasets = []
+    for (var i = 0; i < rawData.length; i++) {
+        fdata = {
+            label: rawData[i].label,
+            data: rawData[i].data,
+            lineTension: 0.3,
+            fill: false,
+            borderColor: dynamicColors(),
+            backgroundColor: 'transparent',
+            pointBorderColor: dynamicColors(),
+            pointBackgroundColor: dynamicColors(),
+            pointRadius: 5,
+            pointHoverRadius: 15,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            pointStyle: 'rect'
+        }
+        datasets.push(fdata)
+    }
+
+    var chartData = {
+        labels: {{ labels }},
+    datasets: datasets
+    };
+
+    var chartOptions = {
+        legend: {
+            display: datasets.length == 1 ? false : true,
+            position: 'top',
+            labels: {
+                boxWidth: 80,
+                fontColor: 'black'
+            }
+        },
+        responsive: true,
+    };
+    var lineChart = new Chart(chart, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+    })
+
+    var radarChart = document.getElementById('radar-chart')
+    var radarData = {
+        labels: {{ r_chart.labels }},
+    datasets: [{
+        label: ['Skill'],
+        data: {{ r_chart.data }},
+        borderColor: '#f56954',
+        backgroundColor: 'rgb(245, 105, 84, 0.2)',
+        pointBorderColor: '#f56954',
+        pointBackgroundColor: '#f56954',
+        pointRadius: 5,
+        pointHoverRadius: 15,
+        pointHitRadius: 30,
+        pointBorderWidth: 2,
+        pointStyle: 'rect'
+        }]
+    };
+
+    var radarOptions = {
+        legend: {
+            display: false,
+            position: 'top',
+            labels: {
+                boxWidth: 80,
+                fontColor: 'black'
+            }
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuart'
+        },
+        scale: {
+            ticks: {
+                beginAtZero: true,
+                display: false
+            },
+        },
+        maintainAspectRatio: true,
+        elements: {
+            line: {
+                tension: 0,
+            }
+        }
+    }
+
+    var myRadarChart = new Chart(radarChart, {
+        type: 'radar',
+        data: radarData,
+        options: radarOptions
+    });
+
+</script> {% endautoescape %} {% endblock content %}

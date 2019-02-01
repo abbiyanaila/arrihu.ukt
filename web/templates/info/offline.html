@@ -1,0 +1,91 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arrihu Archery App - Offline</title>
+
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+
+    <meta name="theme-color" content="#0073b7">
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Arrihu App">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="{% static 'images/logo.png' %}" sizes="160x160">
+    <link rel="icon" href="{% static 'images/icon.png' %}">
+
+    <meta property='og:title' content='Arrihu App'>
+    <meta property='og:type' content='website'>
+    <meta property='og:image' content='{% static ' images/logo.png ' %}'>
+    <meta property='og:url' content=''>
+    <meta property='og:description' content='Arrihu Application base on web'>
+    <link rel="stylesheet" href="{% static 'components/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'components/admin-lte/dist/css/AdminLTE.min.css' %}">
+    <link rel="stylesheet" href="{% static 'components/admin-lte/dist/css/skins/_all-skins.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+
+<body>
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="../index2.html" class="logo bg-blue hidden-xs">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <b>A</b>rh</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <b>Arrihu</b> App</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top bg-blue">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar" style="height: auto;">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                </div>
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu tree" data-widget="tree">
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <div class="content-wrapper" style="min-height: 901px; background: white">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="text-align: center; margin-top: 55px;">Tidak Terkoneksi Dengan Server . . .</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{%  static 'components/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{%  static 'components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{%  static 'components/admin-lte/dist/js/demo.js' %}"></script>
+    <script src="{%  static 'components/moment/min/moment.min.js' %}"></script>
+    <script>
+        if (navigator.onLine) {
+            window.location.href = '/dashboard'
+        }
+
+        window.addEventListener("online", function () {
+            window.location.href = '/dashboard'
+        }, false);
+    </script>
+</body>
+
+</html>

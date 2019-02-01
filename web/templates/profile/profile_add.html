@@ -1,0 +1,235 @@
+{% extends "profile/base_profile.html" %} {% block content %} {% load widget_tweaks %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <a href="{% url 'member:view' %}" class="btn btn-danger" style="margin-bottom: 8px;">
+                    <i class="fa fa-arrow-left"></i> <span class="hidden-xs">Kembali</span>
+                </a>
+                &nbsp;
+                <h3 class="box-title">
+                    <i class="fa fa-th"></i> Form Tambah Anggota Baru</h3>
+            </div>
+            <div class="box-body">
+                <form action="{% url 'member:create' %}" method="POST" enctype="multipart/form-data" class="col-md-8 col-md-offset-2">
+                    {% csrf_token %}
+                    <ul class="timeline">
+                        <!-- timeline time label -->
+                        <li class="time-label">
+                            <span class="bg-red">
+                                Informasi Anggota
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fa fa-user bg-red"></i>
+
+                            <div class="timeline-item">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Username</label>
+                                        {{ user_form.username | add_class:'form-control' }}
+                                    </div>
+                                    <div class="form-group">
+                                        <img id="img-qrcode" width="100px" height="100px" src="" alt="" style="display: none">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Password</label>
+                                        {{user_form.password1 | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Konfirmasi Password</label>
+                                        {{user_form.password2 | add_class:'form-control'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- /.timeline-label -->
+                        <!-- timeline item -->
+                        <li>
+                            <i class="fa fa-user bg-orange"></i>
+
+                            <div class="timeline-item">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Nama</label>
+                                        {{profile_form.name | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Alamat Lengkap</label>
+                                        {{profile_form.address | add_class:'form-control' | attr:'rows:3'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Gender</label>
+                                        <br> {% for choice in profile_form.gender.field.choices %}
+                                        <input name="gender" type="radio" class="minimal" value="{{choice.0}}"> {{choice.1}} &nbsp;&nbsp; {% endfor %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Tempat Lahir</label>
+                                        {{profile_form.born_place | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Tanggal Lahir</label>
+                                        {{profile_form.born_date | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Agama</label>
+                                        {{profile_form.religion | add_class:'form-control' | attr:'value:Islam'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">No. Identitas</label>
+                                        {{profile_form.identity_number | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">No. Telp</label>
+                                        {{profile_form.phone | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Email</label>
+                                        {{profile_form.email | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Level</label>
+                                        <div class="input-group">
+                                            {{profile_form.level | add_class:'form-control'}}
+                                            <span class="input-group-btn">
+                                                <a href="{% url 'div:view' %}" class="btn btn-primary btn-flat">
+                                                    <i class="fa fa-plus"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Organisasi</label>
+                                        {{profile_form.organization | add_class:'form-control'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Gambar Profile</label>
+                                        {{profile_form.picture | add_class:'form-control' | attr:'accept:image/*'}}
+                                    </div>
+                                    <div class="form-group">
+                                        <img id="img-picture" width="160px" height="160px" src="" alt="" style="display: none">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="time-label">
+                            <span class="bg-green">
+                                Informasi Fisik Anggota
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fa fa-heart bg-green"></i>
+                            <div class="timeline-item">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Tinggi Badan</label>
+                                                <div class="input-group">
+                                                    {{physic_form.body_height | add_class:'form-control'}}
+                                                    <div class="input-group-addon">
+                                                        cm
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Berat Badan</label>
+                                                <div class="input-group">
+                                                    {{physic_form.body_weight | add_class:'form-control'}}
+                                                    <div class="input-group-addon">
+                                                        kg
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Arm Span</label>
+                                                <div class="input-group">
+                                                    {{physic_form.arm_span | add_class:'form-control'}}
+                                                    <div class="input-group-addon">
+                                                        cm
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Full Draw</label>
+                                                <div class="input-group">
+                                                    {{physic_form.full_draw | add_class:'form-control'}}
+                                                    <div class="input-group-addon">
+                                                        inch
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Over Draw</label>
+                                                <div class="input-group">
+                                                    {{physic_form.over_draw | add_class:'form-control'}}
+                                                    <div class="input-group-addon">
+                                                        inch
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Golongan Darah</label>
+                                                {{physic_form.blood_group | add_class:'form-control'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Riwayat Penyakit</label>
+                                                {{physic_form.hospital_history | add_class:'form-control' | attr:'rows:2'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-item">
+                                <div class="col-md-12">
+                                    <button class="btn bg-purple pull-right">Simpan Data &nbsp;
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function readPath(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-picture').attr('src', e.target.result);
+                $('#img-picture').removeAttr('style');
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("input[name=picture]").change(function () {
+        readPath(this);
+    });
+</script> {% endblock content %}

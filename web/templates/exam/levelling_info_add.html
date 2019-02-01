@@ -1,0 +1,99 @@
+{% extends "exam/base_exam.html" %} {% block h_title %}
+<h1>Tambah Ujian</h1>
+{% endblock h_title %} {% block content %} {% load staticfiles %} {% load widget_tweaks %}
+<style>
+    .center-cropped {
+        object-fit: cover;
+        object-position: center;
+        height: 100px;
+        width: 100px;
+    }
+</style>
+<div class="row">
+    {% include 'base/include/message.html' %}
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h4>
+                    <i class="fa fa-th"></i> 5 Ujian Terakhir</h4>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <table class="table table-hovered" id="table-exam">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lev_info in levelling_infos %}
+                            <tr>
+                                <td>
+                                    <b>UKT</b> level
+                                    <label for="" class="label label-success">{{lev_info.level}}</label>,
+                                    <b>{{lev_info.created | date:''}}</b>
+                                </td>
+                                <td>
+                                    <a href="{% url 'exam:lev_list' lev_info.pk %}" class="btn btn-sm btn-success pull-right">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h4>
+                    <i class="fa fa-th"></i> Tambah Ujian</h4>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <form action="{% url 'exam:create' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Level</label>
+                            <select class="form-control" name="level">
+                                <option value="">Pilih Level</option>
+                                <option value="">--------------------------</option>
+                                {% for level in levels %}
+                                <option value="{{level.pk}}">{{level.division.name}} -> {{level.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Lokasi / Alamat Tempat Latihan</label>
+                            {{form.location | add_class:'form-control'}}
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" class="btn bg-purple">Buat Latihan &nbsp;
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#table-exam').DataTable({
+        "lengthMenu": [
+            [5, -1],
+            [5, "All"]
+        ],
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": false,
+        "bInfo": false,
+        "bAutoWidth": false
+    });
+</script>
+{% endblock content %}

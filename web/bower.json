@@ -1,0 +1,21 @@
+{
+  "name": "arrihu_app",
+  "description": "Arrihu Archery App",
+  "main": "",
+  "authors": [
+    "Arrihu Archery Team"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "^2.4.3",
+    "toastr": "^2.1.3",
+  }
+}

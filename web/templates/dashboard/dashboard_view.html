@@ -1,0 +1,81 @@
+{% extends "dashboard/base_dashboard.html" %} {% block h_title %}
+<h1>
+    Dashboard
+</h1>
+{% endblock h_title %} {% block content %}
+<div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red">
+                <i class="fa fa-users"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">Jumlah Peserta</span>
+                <span class="info-box-number">{{member_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green">
+                <i class="fa fa-users"></i>
+            </span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Jumlah Pelatih</span>
+                <span class="info-box-number">{{coach_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow">
+                <i class="fa fa-share"></i>
+            </span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Jumlah Cabang</span>
+                <span class="info-box-number">{{branch_total}}</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div id="gender-chart-container" style="width: 100%; height: auto;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div id="age-chart-container" style="width: 100%; height: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.row -->
+{% autoescape off %}
+<script>
+    var g_el = document.getElementById('gender-chart-container')
+    var g_title = 'Statistik Peserta Berdasarkan Jenis Kelamin'
+    var g_labels = ['Pria', 'Wanita']
+    var g_data = {{ gender_data }}
+    createBarChart(g_el, g_title, g_labels, g_data)
+
+    var a_el = document.getElementById('age-chart-container')
+    var a_title = 'Statistik Peserta Berdasarkan Usia'
+    var a_data = {{ age_data }}
+    createPieChart(a_el, a_title, a_data)
+</script> {% endautoescape %} {% endblock content %}

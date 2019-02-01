@@ -1,0 +1,58 @@
+{% load staticfiles %} {% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arrihu Archery App</title>
+
+    <link rel="icon" href="{% static 'images/icon.png' %}"> {% include 'base/static/css.html' %} {% include 'base/static/js.html' %}
+</head>
+
+<body class="hold-transition login-page" style="background: white; padding-top: 5%;">
+    <div class="login-box">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            {{message}}
+        </div>
+        {%endfor%} {%endif%}
+        <div class="login-logo">
+            <img src="{% static 'images/text-logo.png' %}" alt="" srcset="">
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body shadow">
+            <p class="login-box-msg">Sign in to start your session</p>
+            <form id="login-form" method="POST">
+                {% csrf_token %}
+                <div class="form-group has-feedback">
+                    {{form.username | add_class:'form-control' | attr:'placeholder:Username'}}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{form.password | add_class:'form-control' | attr:'placeholder:Password'}}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 pull-right">
+                        <button type="submit" class="btn bg-purple btn-block btn-flat">Masuk
+                            <i class="fa fa-sign-in"></i>
+                        </button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-messaging.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>

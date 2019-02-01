@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web App for Arrihu Muslim Archery Club to manage the member">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arrihu Archery App</title>
+    <link rel="icon" href="{% static 'images/icon.png' %}"> {% include 'base/static/css.html' %} {% include 'base/static/js.html' %}
+</head>
+
+<body id="body" class="hold-transition sidebar-mini skin-purple-light" style="height: auto; min-height: 100%;">
+    <div class="wrapper" style="height: auto; min-height: 100%;">
+        {% include 'base/navbar.html' %} {% include 'base/sidebar.html' %}
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 901px;">
+            {% block base %} {% endblock base %}
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- {% include 'base/footer.html' %} -->
+    </div>
+    {% block js %} {% endblock js %}
+
+</body>
+
+</html>

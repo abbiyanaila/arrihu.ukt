@@ -1,0 +1,136 @@
+{% extends "exam/weight/base_weight.html" %} {% load staticfiles %} {% load widget_tweaks %} {% block content %}
+<style>
+    .center-cropped {
+        object-fit: cover;
+        object-position: center;
+        height: 100px;
+        width: 100px;
+    }
+
+    th {
+        text-align: center;
+        background-color: #605ca8;
+        color: white;
+    }
+</style>
+<div class="row" id="view_container">
+    <div class="col-md-12">
+        {% include 'base/include/message.html' %}
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h4>
+                        <i class="fa fa-th"></i> Bobot Penilain</h4>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="border-right: grey 1px solid">
+                            <form action="{% url 'exam:w_update' object.pk %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="" class="control-label">Level</label>
+                                    <div class="input-group">
+                                        <select class="form-control select2" name="level" data-placeholder="Pilih Level">
+                                            {% for lv in levels %}
+                                            <option value="{{lv.pk}}" {% ifequal lv.name object.level.name %} selected {% endifequal %}>
+                                                {{lv.division.name}} --> {{lv.name}}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <a href="{% url 'div:view' %}" class="btn bg-blue btn-flat">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Akurasi</label>
+                                    {{form.accuracy | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Kecepatan</label>
+                                    {{form.speed | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Teknik</label>
+                                    {{form.technique | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Pengetahuan</label>
+                                    {{form.knowledge | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Mental</label>
+                                    {{form.mental | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Fisik</label>
+                                    {{form.physic | add_class:'form-control' }}
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-block bg-purple">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-9">
+                            <table class="table table-bordered table-hovered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align: middle">#Aksi</th>
+                                        <th rowspan="2" style="vertical-align: middle">Divisi</th>
+                                        <th rowspan="2" style="vertical-align: middle">Level</th>
+                                        <th colspan="9">Bobot</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Akurasi</th>
+                                        <th>Kecepatan</th>
+                                        <th>Teknik</th>
+                                        <th>Pengetahuan</th>
+                                        <th>Mental</th>
+                                        <th>Fisik</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for assw in object_list %}
+                                    <tr>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{% url 'exam:w_edit' assw.id %}" class="btn btn-sm bg-yellow">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a href="{% url 'exam:w_delete' assw.id %}" onclick="return confirm('Apakah anda yakin akan menghapus bobot penilaian ini?')"
+                                                    class="btn btn-sm bg-red">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <label class="label {% if assw.division == 'Horsebow' %}label-success{% elif assw.division == 'Recurvebow' %} label-primary {% else %} label-warning {% endif %}">{{assw.division}}</label>
+                                        </td>
+                                        <td>{{assw.level}}</td>
+                                        <td>{{assw.accuracy}} %</td>
+                                        <td>{{assw.speed}} %</td>
+                                        <td>{{assw.technique}} %</td>
+                                        <td>{{assw.knowledge}} %</td>
+                                        <td>{{assw.mental}} %</td>
+                                        <td>{{assw.physic}} %</td>
+                                        <td>{{assw.total}} %</td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.select2').select2()
+</script> {% endblock content %}

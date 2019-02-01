@@ -1,0 +1,64 @@
+{% extends "profile/base_profile.html" %} {% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% include 'base/include/message.html' %}
+        <div class="box box-primary shadow">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <i class="fa fa-th"></i> List Semua Anggota</h3>
+                <a href="{% url 'member:add' %}" class="btn btn-primary btn-sm pull-right" style="margin-bottom: 8px;" data-toggle="tooltip"
+                    data-placement="top">
+                    <span class="hidden-xs">Tambah Member Baru</span>
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            <div class="box-body">
+                <table id="table-member" class="table table-striped table-hovered table-bordered table-responsive">
+                    <thead>
+                        <th>No.</th>
+                        <th>No. Registrasi</th>
+                        <th class="hidden-xs">Nama</th>
+                        <th class="hidden-xs hidden-sm">Gender</th>
+                        <th class="hidden-xs hidden-sm">Level</th>
+                        <th class="hidden-xs hidden-sm">Divisi</th>
+                        <th style="text-align: center">Aksi</th>
+                    </thead>
+                    <tbody>
+                        {% for member in object_list %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{member.user.username}}</td>
+                            <td class="hidden-xs">{{member.name}}</td>
+                            <td class="hidden-xs hidden-sm">{{member.gender}}</td>
+                            <td class="hidden-xs hidden-sm">{{member.level.name}}</td>
+                            <td class="hidden-xs hidden-sm">{{member.level.division.name}}</td>
+                            <td style="text-align: center">
+                                <div class="btn-group">
+                                    <a href="{% url 'member:detail' member.pk %}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Detail">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'member:edit' member.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'member:delete' member.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#table-member').DataTable({
+        "bLengthChange": false,
+        "bInfo": false,
+    })
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script> {% endblock content %}

@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<style>
+    .treeview-menu>li {
+        padding-left: 21px;
+    }
+</style>
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <ul id="sidebar-menu" class="sidebar-menu tree" data-widget="tree">
+            <li class="header">MENU UTAMA</li>
+            <li class="{% if 'dashboard' in request.path %} active {% endif %}">
+                <a href="/dashboard/">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Dashboard</span>
+                    <!-- <span class="pull-right-container">
+                        <span class="label label-success pull-right">4</span>
+                    </span> -->
+                </a>
+            </li>
+            <li class="{% if 'member' in request.path %} active {% endif %}">
+                <a href="/member/">
+                    <i class="fa fa-user"></i>
+                    <span>Member</span>
+                    <!-- <span class="pull-right-container">
+                        <span class="label label-success pull-right">4</span>
+                    </span> -->
+                </a>
+            </li>
+            <li id="ukt-url" class="treeview {% if 'exam' in request.path %} active {% endif %}">
+                <a href="#">
+                    <i class="fa fa-level-up"></i>
+                    <span>Ujian K. Tingkat</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu {% if 'exam' in request.path %} menu-open {% endif %}">
+                    <li class="{% if 'exam/add' in request.path %} active {% endif %}">
+                        <a href="{% url 'exam:view' %}">
+                            <i class="fa fa-paper-plane-o"></i> Lakukan Pengujian</a>
+                    </li>
+                    <li class="{% if 'exam/weight' in request.path %} active {% endif %}">
+                        <a href="{% url 'exam:w_view' %}">
+                            <i class="fa fa-bars"></i> Bobot Penilaian</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview {% if 'setting' in request.path %} active {% endif %}">
+                <a href="#">
+                    <i class="fa fa-cogs"></i>
+                    <span>Pengaturan</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu {% if 'settings' in request.path %} menu-open {% endif %}">
+                    <li class="{% if 'division' in request.path %} active {% endif %}">
+                        <a href="{% url 'div:view' %}">
+                            <i class="fa fa-angle-double-right"></i> Divisi</a>
+                    </li>
+                    <li class="{% if 'change_password' in request.path %} active {% endif %}">
+                        <a href="{% url 'settings:change_pwd' %}">
+                            <i class="fa fa-lock"></i>
+                            <span>Ubah Password</span>
+                        </a>
+                    </li>
+                    <li id="add-setting-url" class="{% if 'additional_settings' in request.path %} active {% endif %}">
+                        <a href="{% url 'settings:additional_settings' %}">
+                            <i class="fa fa-ellipsis-h"></i> Pengaturan Tambahan</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<script>
+    if (platform.os.family === 'Android' || platform.os.family === 'iOS') {
+        $('#sidebar-menu').attr('style', 'margin-top: -34px;')
+        $('#ukt-url').attr('style', 'display:none')
+        $('#setup-url').attr('style', 'display:none')
+        $('#add-setting-url').attr('style', 'display:none')
+    }
+</script>

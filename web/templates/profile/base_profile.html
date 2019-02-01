@@ -1,0 +1,22 @@
+{% extends "base/base.html" %} {% load staticfiles %} {% block base %}
+<!-- Content Header (Page header) -->
+<section class="content-header hidden-xs">
+    <h1>
+        Member
+        <small>Profile</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <i class="fa fa-user"></i> Member</a>
+        </li>
+        <li class="active">List</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    {% block content %} {% endblock content %}
+</section>
+<!-- /.content -->
+{% endblock base %}

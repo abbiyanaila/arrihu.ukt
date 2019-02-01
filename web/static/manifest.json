@@ -1,0 +1,17 @@
+{
+    "short_name": "Arrihu App",
+    "name": "Arrihu Member",
+    "start_url": "/login",
+    "scope": "/",
+    "display": "standalone",
+    "gcm_sender_id": "103953800507",
+    "theme_color": "#0073b7",
+    "background_color": "#fff",
+    "icons": [
+        {
+            "src": "/static/images/logo.png",
+            "type": "image/png",
+            "sizes": "144x144 192x192 512x512"
+        }
+    ]
+}

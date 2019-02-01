@@ -1,0 +1,86 @@
+{% extends "organization/base_organization.html" %} {% block content %} {% load widget_tweaks %}
+<style>
+    th {
+        text-align: center
+    }
+</style>
+<div class="row">
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{message}}
+    </div>
+    {%endfor%} {%endif%}
+    <div class="col-md-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Form Tambah Organisasi</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <form method="POST" action="{% url 'org:create' %}" class="col-md-12">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="" class="control-label">Nama Klub</label>
+                            {{form.name | add_class:'form-control'}}
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label">Deskripsi</label>
+                            {{form.description | add_class:'form-control' | attr:'rows:2'}}
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" class="btn bg-purple">Simpan Data &nbsp;
+                                <i class="fa fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">List Organisasi</h3>
+            </div>
+            <div class="box-body">
+                <table id="table-org" class="table table-hovered table-striped table-bordered">
+                    <thead>
+                        <th>#Aksi</th>
+                        <th class="hidden-xs">No.</th>
+                        <th>Nama</th>
+                        <th class="hidden-xs">Deskripsi</th>
+                    </thead>
+                    <tbody>
+
+                        {% for obj in object_list %}
+                        <tr>
+                            <td>
+                                <div class="btn btn-group">
+                                    <a href="{% url 'org:edit' obj.pk %}" class="btn btn-sm btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'org:delete' obj.pk %}" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="hidden-xs">{{forloop.counter}}</td>
+                            <td>{{obj.name}}</td>
+                            <td class="hidden-xs">{{obj.description}}</td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#table-org').DataTable({
+        "bLengthChange": false,
+        "bInfo": false,
+    })
+</script> {% endblock content %}

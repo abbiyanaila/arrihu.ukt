@@ -1,0 +1,256 @@
+{% extends "division/base_division.html" %} {% block content %} {% load widget_tweaks %}
+<style>
+    .modal-body p {
+        word-wrap: break-word;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">Ã—</button>
+            {{message}}
+        </div>
+        {%endfor%} {%endif%}
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <i class="fa fa-th"></i> Semua Divisi dan Tingkatan Dalam Dvisi</h3> &nbsp; | &nbsp;
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-add-div">
+                    Tambah Divisi &nbsp;
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <div class="box-body" style="padding: 16px;">
+                <div class="col-md-12">
+                    <ul class="sidebar-menu tree">
+
+                        {% for division in object_list %}
+                        <li class="treeview menu-open">
+                            <p style="padding: 8px">
+                                <i class="fa fa-chevron-right"></i>
+                                <span>
+                                    <b class="text-blue">{{division.name}}</b>
+                                </span>
+                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                <a class="btn btn-sm btn-primary" style="display: inline-block" data-toggle="modal" data-target="#modal-level-add-{{division.pk}}">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a class="btn btn-sm btn-warning" style="display: inline-block" data-toggle="modal" data-target="#modal-edit-div-{{division.pk}}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-sm btn-danger" style="display: inline-block" data-toggle="modal" data-target="#modal-delete-div-{{division.pk}}">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </p>
+                            <div class="modal fade" id="modal-edit-div-{{division.pk}}">
+                                <div class="modal-dialog">
+                                    <form method="POST" action="{% url 'div:update' division.pk %}">
+                                        {% csrf_token %}
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Ubah Divisi :
+                                                    <b>{{division.name}}</b>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="" class="control-label">Nama Divisi</label>
+                                                    <input type="text" name="name" class="form-control" value="{{division.name}}">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Update &nbsp;
+                                                    <i class="fa fa-save"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <div class="modal fade" id="modal-delete-div-{{division.pk}}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Konfirmasi
+                                            </h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>
+                                                <b>Apakah anda yakin akan menghapus divisi
+                                                    <span class="text-green">{{division.name}}</span>?</b>
+                                            </p>
+                                            <p class="text-red">
+                                                <b>
+                                                    <i>**Menghapus Divisi akan mengakibatkan Level yang berkaitan dengan divisi
+                                                        tersebut terhapus!**
+                                                    </i>
+                                                </b>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'div:delete' division.pk %}" class="btn btn-danger">Hapus &nbsp;
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <div class="modal fade" id="modal-level-add-{{division.pk}}">
+                                <div class="modal-dialog">
+                                    <form method="POST" action="{% url 'div:l_create' div_pk=division.pk %}">
+                                        {% csrf_token %}
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Tambah Level Untuk Divisi
+                                                    <b>{{division.name}}</b>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="" class="control-label">Nama Level</label>
+                                                    {{lev_form.name | add_class:'form-control' | attr:'autofocus' }}
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Simpan &nbsp;
+                                                    <i class="fa fa-save"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <ul class="treeview-menu" style="display: block">
+
+                                {% for level in division.levels.all %}
+                                <li style="padding-left: 21px;">
+                                    <p style="vertical-align: center; padding: 5px;">
+                                        <i class="fa fa-angle-double-right"></i>
+                                        {{level.name}} &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <a class="btn btn-sm btn-warning" style="display: inline-block" data-toggle="modal" data-target="#modal-level-edit-{{level.pk}}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-danger" style="display: inline-block" data-toggle="modal" data-target="#modal-level-delete-{{level.pk}}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </p>
+                                </li>
+
+                                <div class="modal fade" id="modal-level-edit-{{level.pk}}">
+                                    <div class="modal-dialog">
+                                        <form method="POST" action="{% url 'div:l_update' div_pk=division.pk pk=level.pk %}">
+                                            {% csrf_token %}
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <h4 class="modal-title">Update Level {{level.name}} Pada Divisi
+                                                        <b>{{division.name}}</b>
+                                                    </h4>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="" class="control-label">Nama Level</label>
+                                                        <input type="text" name="name" class="form-control" value="{{level.name}}">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Update &nbsp;
+                                                        <i class="fa fa-save"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+
+                                <div class="modal fade" id="modal-level-delete-{{level.pk}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Konfirmasi
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>
+                                                    <b>Apakah anda yakin akan menghapus level {{level.name}} pada divisi {{division.name}}?</b>
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{% url 'div:l_delete' div_pk=division.pk pk=level.pk %}" class="btn btn-danger">Hapus &nbsp;
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+
+                                {% endfor %}
+
+                            </ul>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-add-div">
+        <div class="modal-dialog">
+            <form method="POST" action="{% url 'div:create' %}">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Tambah Divisi</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="" class="control-label">Nama Divisi</label>
+                            {{div_form.name | add_class:'form-control' | attr:'autofocus'}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan &nbsp;
+                            <i class="fa fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+{% endblock content %}

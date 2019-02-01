@@ -1,0 +1,23 @@
+{% extends "base/base.html" %} {% load staticfiles %} {% block base %}
+<!-- Content Header (Page header) -->
+<section class="content-header hidden-xs">
+    {% block h_title %}
+    
+    {% endblock h_title %}
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <i class="fa fa-heartbeat"></i> UKT</a>
+        </li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    {% block content %} {% endblock content %}
+</section>
+<!-- /.content -->
+{% endblock base %}
+{% block js %}
+<script async src="{%  static 'components/chart.js/dist/Chart.min.js' %}"></script>
+{% endblock js %}
